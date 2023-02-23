@@ -5,15 +5,40 @@ Tested on ROCK 5B and NanoPi R6S.
 
 ## Build and run
 
+**Prepare FFmpeg**
+
+Clone Jeffy's FFmpeg repo or a 4.4.2 repo and change the lines: 
+
+https://github.com/JeffyCN/FFmpeg/blob/66b6b2ae02c717a2016845543805b4eed01728b1/libavcodec/rkmppdec.c#L533
+
+        #if 0
+            if (avctx->pix_fmt != AV_PIX_FMT_DRM_PRIME) {
+                ret = ff_get_buffer(avctx, frame, 0);
+                if (ret < 0)
+                    goto out;
+            }
+        #endif
+
+
+https://github.com/JeffyCN/FFmpeg/blob/66b6b2ae02c717a2016845543805b4eed01728b1/libavcodec/rkmppdec.c#L554
+
+        #if 0
+            if (avctx->pix_fmt != AV_PIX_FMT_DRM_PRIME) {
+                ret = rkmpp_convert_frame(avctx, frame, mppframe, buffer);
+                goto out;
+            }
+        #endif
+
+
 **Statically linked example:**
 
-    gcc -g0 -O2 -o ffmpeg-drmx ffmpeg-drm.c -I../ffmpeg-rk/ -I/usr/include/libdrm ../ffmpeg-rk/libavcodec/libavcodec.a ../ffmpeg-rk/libavformat/libavformat.a ../ffmpeg-rk/libavutil/libavutil.a ../ffmpeg-rk/libswresample/libswresample.a ../ffmpeg-rk/libavcodec/libavcodec.a -lz -lm -lpthread -ldrm -lrockchip_mpp -lvorbis -lvorbisenc -ltiff -lopus -logg -lmp3lame -llzma -lrtmp -lssl -lcrypto -lbz2 -lxml2
+    gcc -o ffmpeg-drmx ffmpeg-drm.c -I../FFmpeg/ -I/usr/include/libdrm ../FFmpeg/libavcodec/libavcodec.a ../FFmpeg/libavformat/libavformat.a ../FFmpeg/libavutil/libavutil.a ../FFmpeg/libswresample/libswresample.a ../FFmpeg/libavcodec/libavcodec.a -lz -lm -lpthread -ldrm -lrockchip_mpp -lvorbis -lvorbisenc -ltiff -lopus -logg -lmp3lame -llzma -lrtmp -lssl -lcrypto -lbz2 -lxml2
 
 **Running some movies:**
 
   * Drop to CLI
   
-    sudo systemctl stop lightdm
+        sudo systemctl stop lightdm
   
   * Running
 
