@@ -68,3 +68,5 @@ Clone Jeffy's FFmpeg repo or the latest ffmpeg with HW decoder (rkmpp_decoder) f
 
 * https://github.com/BayLibre/ffmpeg-drm/
 * https://github.com/JeffyCN/FFmpeg
+* https://github.com/hbiyik/FFmpeg
+* https://github.com/jjm2473/ffmpeg-rk
